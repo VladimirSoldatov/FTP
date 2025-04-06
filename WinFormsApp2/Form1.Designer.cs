@@ -38,7 +38,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(713, 61);
+            button1.Location = new Point(1042, 55);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 0;
@@ -48,7 +48,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(713, 21);
+            button2.Location = new Point(1042, 15);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 1;
@@ -81,14 +81,15 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(45, 111);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(595, 203);
+            dataGridView1.Size = new Size(859, 203);
             dataGridView1.TabIndex = 4;
+            dataGridView1.CellMouseClick += dataGridView1_CellMouseClick;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1148, 450);
             Controls.Add(dataGridView1);
             Controls.Add(button4);
             Controls.Add(button3);

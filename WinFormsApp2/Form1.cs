@@ -100,7 +100,7 @@ namespace WinFormsApp2
             {
                 respons_string += Encoding.UTF8.GetString(buffer);
             }
-            string [] infoFile = respons_string.Split("\r\n");
+            string[] infoFile = respons_string.Split("\r\n");
             Regex regex = new Regex(@"^([d-])([rwxt-]{3}){3}\s+\d{1,}\s+.*?(\d{1,})\s+(\w+\s+\d{1,2}\s+(?:\d{4})?)(\d{1,2}:\d{2})?\s+(.+?)\s?$",
             RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
             Regex.Match(infoFile[0], regex.ToString());
@@ -113,6 +113,11 @@ namespace WinFormsApp2
                 new DataColumn("CreateTime", "Type".GetType()),
                 new DataColumn("Name", "Type".GetType()),
                 });
+            DataGridViewButtonColumn dataGridViewButtonColumn = new DataGridViewButtonColumn();
+            dataGridViewButtonColumn.Name = "Delete_Button";
+            dataGridViewButtonColumn.Text = "Delete";
+
+
             foreach (string file in infoFile)
             {
                 Match match = regex.Match(file);
@@ -141,19 +146,35 @@ namespace WinFormsApp2
                         Name = name
                     };
                     infoFiles.Add(info);
-                    dt.Rows.Add(info.Type, info.Permition, info.Size, info.CreateDate, info.CreateTime,info.Name );
+                    dt.Rows.Add(info.Type, info.Permition, info.Size, info.CreateDate, info.CreateTime, info.Name);
                 }
 
             }
             dataGridView1.DataSource = null;
+            dataGridView1.Columns.Clear();
             dataGridView1.DataSource = infoFiles;
             // ƒобавить поле, которое будет возвращать пользовател€ на директорию выше
+            dataGridView1.Columns.Add(dataGridViewButtonColumn);
+            foreach (DataGridViewRow dataGridViewRow in dataGridView1.Rows)
+            {
+                dataGridViewRow.Cells[dataGridView1.Columns.Count - 1].Value = "”далить";
+            }
 
-            MessageBox.Show(respons_string);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string file_name = ((DataGridView)sender).Rows[e.RowIndex].Cells[5].Value.ToString();
+            FtpWebRequest ftpWebRequest = (FtpWebRequest)WebRequest.Create($"ftp://212.12.30.90:10021/{file_name}");
+            ftpWebRequest.Method = WebRequestMethods.Ftp.DeleteFile;
+            ftpWebRequest.Credentials = new NetworkCredential("admin", "WemjdXEB");
+            FtpWebResponse response = (FtpWebResponse)ftpWebRequest.GetResponse();
+            button4.PerformClick();
 
         }
     }
